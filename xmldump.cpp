@@ -13,7 +13,7 @@ void dump(XMLElement *elem, int indentation)
 
     for (const XMLAttribute *attr = elem->FirstAttribute(); attr != nullptr; attr = attr->Next())
         std::cout << " " << attr->Name() << "=\"" << attr->Value() << "\"";
-
+    
     std::cout << " ] " << std::endl;
     for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
     {

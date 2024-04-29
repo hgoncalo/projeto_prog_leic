@@ -1,0 +1,13 @@
+>>>> [1] ellipse_1 <<<<
+svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ] 
+DAS IST CHILD :   ellipse --> [ cx="100" cy="100" rx="50" ry="40" fill="blue" ] 
+pixel (50 100): expected 0 0 255 got 255 255 255
+>>>> [2] ellipse_2 <<<<
+svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ] 
+DAS IST CHILD :   ellipse --> [ cx="100" cy="100" rx="95" ry="20" fill="red" ] 
+DAS IST CHILD :   ellipse --> [ cx="100" cy="100" rx="20" ry="80" fill="blue" ] 
+DAS IST CHILD :   ellipse --> [ cx="50" cy="50" rx="25" ry="25" fill="yellow" ] 
+DAS IST CHILD :   ellipse --> [ cx="50" cy="50" rx="10" ry="10" fill="black" ] 
+DAS IST CHILD :   ellipse --> [ cx="150" cy="50" rx="25" ry="25" fill="yellow" ] 
+DAS IST CHILD :   ellipse --> [ cx="150" cy="50" rx="10" ry="10" fill="black" ] 
+pixel (5 100): expected 255 0 0 got 255 255 255
