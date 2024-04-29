@@ -1,0 +1,4 @@
+>>>> [1] ellipse_1 <<<<
+pixel (50 100): expected 0 0 255 got 255 255 255
+>>>> [2] ellipse_2 <<<<
+pixel (5 100): expected 255 0 0 got 255 255 255
