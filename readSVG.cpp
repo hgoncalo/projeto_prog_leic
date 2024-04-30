@@ -12,33 +12,83 @@
         //função read_elements para ir buscar cada elemento do xml
         //@todo : implementar parse para cores
 
-        void read_elements(XMLElement *xml_elem, int indentation){
-                for (int i = 0; i < indentation; i++){
-                    std::cout << " ";
-                }
+        std::vector<std::string> attributes;
 
-                std::cout << xml_elem->Name() << " --> [";
+        //
+        // IMPORTANTE !!!    
+        // OBS : Será dump_att totalmente necessário ou podemos usar IntAttribute?
+        // 
 
-                //unspecified behavoir
-                //if (xml_elem->Name() == "ellipse"){
-                //
-                //}
-                //else if (xml_elem->Name() == "ellipse"){
-                //    
-                //}
+        void dump_att(XMLElement *xml_elem,std::vector<std::string> &attributes){
+            //vetor alocado dinamicamente que devolve os atributos quando chamada (e elimina-lo no fim dos ifs)
+            for (const XMLAttribute *attr = xml_elem->FirstAttribute(); attr != nullptr; attr = attr->Next()){
+                std::cout << " " << attr->Name() << "=\"" << attr->Value() << "\""; //dar pushback ao valor
+                attributes.push_back(attr->Value());
+            }
+        }
 
-                //cada atributo do node/element
-                for (const XMLAttribute *attr = xml_elem->FirstAttribute(); attr != nullptr; attr = attr->Next()){
-                    std::cout << " " << attr->Name() << "=\"" << attr->Value() << "\"";
-                }
+        void read_elements(XMLElement *xml_elem, int indentation)
+        {
+            for (int i = 0; i < indentation; i++){
+                std::cout << " ";
+            }
+            std::cout << xml_elem->Name() << " --> [";
 
-                //filhos do element
-                std::cout << " ] " << std::endl;
-                for (XMLElement *child = xml_elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
-                {
-                    std::cout << "DAS IST CHILD : ";
-                    svg::read_elements(child, indentation + 2);
-                }
+            //cada atributo do node/element
+            dump_att(xml_elem,attributes);
+            //std::cout << "Atributos: " << '\n';
+            //for (auto &i: attributes){
+            //    std::cout << '\n' << i << '\n';
+            //}
+
+            //atribuir os atributos certos a cada tipo
+            if (strcmp(xml_elem->Name(),"ellipse") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : ELLIPSE ";
+                Color fill = parse_color(attributes[4]);
+                Point center = {stoi(attributes[0]),stoi(attributes[1])};
+                Point rad = {stoi(attributes[2]),stoi(attributes[3])};
+                Ellipse elp(fill,center,rad);
+
+                //alocar dinamicamente no vetor
+                // [ERROR HERE] : std::vector<SVGElement *>& svg_elements = new std::vector<SVGElement *>[svg_elements.size()+1];
+
+            }
+            else if (strcmp(xml_elem->Name(),"circle") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : CIRCLE ";           
+            }
+            else if (strcmp(xml_elem->Name(),"polyline") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : POLYLINE ";     
+            }
+            else if (strcmp(xml_elem->Name(),"line") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : LINE ";   
+            }
+            else if (strcmp(xml_elem->Name(),"polygon") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : POLYGON ";  
+            }
+            else if (strcmp(xml_elem->Name(),"rect") == 0)
+            {
+                //std::cout << '\n' << "[TEST] : RECT ";
+            }
+            else {
+                // ignore
+            } 
+
+            //empty vector before reading next element
+            attributes = {};
+
+
+            //filhos do element
+            std::cout << " ] " << std::endl;
+            for (XMLElement *child = xml_elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
+            {
+                //std::cout << "[TESTE] ELEMENTO ATUAL : ";
+                svg::read_elements(child, indentation + 2);
+            }
         }
 
 
@@ -74,6 +124,7 @@
             //criar algum vetor temporário e alocar dinamicamente memoria?
 
             //implementação do read_elements
+            svg_elements = {};
             svg::read_elements(xml_elem, 0);
             
         }
