@@ -27,11 +27,17 @@ namespace svg
     void convert(const std::string &svg_file,
                  const std::string &png_file);
 
-    //ellipse class
+
+    //
+    // ELLIPSE
+    //
     class Ellipse : public SVGElement
     {
     public:
         Ellipse(const Color &fill, const Point &center, const Point &radius);
+        Ellipse(const Color &fill, const Point &center);
+        Color get_color() const;
+        Point get_center() const;
         void draw(PNGImage &img) const override;
 
     private:
@@ -40,27 +46,62 @@ namespace svg
         Point radius;
     };
 
-    //
-    // Implementação de novas classes (Polyline/Polygon) e de novas subclasses (Circle/Line/Rectangle)
-    //
 
-    //polyline class
+    //
+    // CIRCLE
+    //
+    class Circle : public Ellipse 
+    {
+    public:
+        Circle(const Color &fill, const Point &center, const int &radius);
+        int get_radius() const;
+        void draw(PNGImage &img) const override;
+
+    private:
+        int radius_;
+    };
+
+
+    //
+    // POLYLINE
+    //
     class Polyline : public SVGElement
     {
     public:
         //type of points? vetor de points? istringstream?
-        //implememas ntar logica de leitura de transformação string->vetor no readsvg?
+        //implementar logica de leitura de transformação string->vetor no readsvg?
 
-        Polyline(const Color &stroke, const std::vector<Point> &points);
+        Polyline(const Color &stroke, const std::vector<Point> &points); 
+        Polyline(const Color &stroke);
+        Color get_stroke() const;
         void draw(PNGImage &img) const override;
 
     private:
         Color stroke;
         std::vector<Point> points;   
     };
-    //line subclass, extends stroke but not points
 
-    //POLYGON CLASS
+
+    //
+    // LINE
+    //
+    class Line : public Polyline
+    {
+    public:
+        //Sub-class que apenas recebe o stroke de Polyline
+        //Ao invés de vetor, apresenta um ponto inicial e final
+
+        Line(const Color &stroke, const Point &start, const Point &end);
+        void draw(PNGImage &img) const override;
+
+    private:
+        Point start, end;
+    };
+
+
+    //
+    // POLYGON
+    //
     class Polygon : public SVGElement
     {
     public:
@@ -72,12 +113,20 @@ namespace svg
         std::vector<Point> points;
     };
 
-    //rectangle SUB-class
+
+    //
+    // RECTANGLE
+    //
     class Rect : public Polygon
     {
     public:
-        Rect(const Color &fill, const std::vector<Point> &start, const int &width, const int &height) : Polygon(fill,start), width(width), height(height){};
+
+        //OBS : No HPP define-se a estrutura
+        //No CPP implementa-se cada elemento da classe
+        
+        Rect(const Color &fill, const std::vector<Point> &start, const int &width, const int &height);
         //atualizar o vetor do polygon???
+
         void draw(PNGImage &img) const override;
 
     private:
