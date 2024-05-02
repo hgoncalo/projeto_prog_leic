@@ -69,6 +69,7 @@ namespace svg
     // POLYGON
     //
     Polygon::Polygon(const Color &fill, const std::vector<Point> &points): fill(fill), points(points){};
+    Polygon::Polygon(const Color &fill): fill(fill){};
     void Polygon::draw(PNGImage &img) const 
     {
         img.draw_polygon(points, fill);
@@ -78,7 +79,7 @@ namespace svg
     //
     // RECT
     //
-    Rect::Rect(const Color &fill, const std::vector<Point> &start, const int &width, const int &height) : Polygon(fill,start), width(width), height(height){};
+    Rect::Rect(const Color &fill, const Point &start, const int &width, const int &height) : Polygon(fill), start(start), width(width), height(height){};
     void Rect::draw(PNGImage &img) const
     {
         // por implementar

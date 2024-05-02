@@ -106,6 +106,7 @@ namespace svg
     {
     public:
         Polygon(const Color &fill, const std::vector<Point> &points);
+        Polygon(const Color &fill);
         void draw(PNGImage &img) const override;
 
     private:
@@ -124,12 +125,13 @@ namespace svg
         //OBS : No HPP define-se a estrutura
         //No CPP implementa-se cada elemento da classe
         
-        Rect(const Color &fill, const std::vector<Point> &start, const int &width, const int &height);
+        Rect(const Color &fill, const Point &start, const int &width, const int &height);
         //atualizar o vetor do polygon???
 
         void draw(PNGImage &img) const override;
 
     private:
+        Point start;
         int width,height;
     };
 }   
