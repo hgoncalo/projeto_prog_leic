@@ -1,5 +1,8 @@
 #include "SVGElements.hpp"
 
+//test
+#include <iostream>
+
 namespace svg
 {
     // These must be defined!
@@ -9,8 +12,8 @@ namespace svg
     //
     // ELLIPSE
     //
-    Ellipse::Ellipse(const Color &fill, const Point &center, const Point &radius): fill(fill), center(center), radius(radius){};
-    Ellipse::Ellipse(const Color &fill, const Point &center) :fill(fill), center(center){};
+    Ellipse::Ellipse(const Color &fill, Point &center, const Point &radius): fill(fill), center(center), radius(radius){};
+    Ellipse::Ellipse(const Color &fill) :fill(fill){};
     Color Ellipse::get_color() const {
         return fill;
     }
@@ -21,15 +24,17 @@ namespace svg
     {
         img.draw_ellipse(center, radius, fill);
     }
-    void Ellipse::translate(Point &xy) const
+    void Ellipse::translate(const Point &xy)
     {
-        center.translate(xy);
+        //std::cout << "Center before: " << get_center().x << get_center().y << '\n'; 
+        this->center = center.translate(xy);
+        //std::cout << "Center after: " << get_center().x << get_center().y << '\n';
     }
-    void Ellipse::rotate(int &trans_scalar) const
+    void Ellipse::rotate(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        this->center = center.rotate(this->center,trans_scalar);
     }
-    void Ellipse::scale(int &trans_scalar) const
+    void Ellipse::scale(int &trans_scalar) 
     {
         //@ todo
     }
@@ -38,25 +43,25 @@ namespace svg
     //
     //CIRCLE
     //
-    Circle::Circle(const Color &fill,const Point &center, const int &radius): Ellipse(fill,center), radius_(radius){};
+    Circle::Circle(const Color &fill, Point &center, const int &radius): Ellipse(fill), center(center), radius(radius){};
     int Circle::get_radius() const 
     {
-        return radius_;
+        return radius;
     }
     void Circle::draw(PNGImage &img) const 
     {
-        Point rad = {get_radius(), get_radius()}; //radius x = radius y in a circle
-        img.draw_ellipse(get_center(), rad, get_color());
+        Point rad = {radius, radius}; //radius x = radius y in a circle
+        img.draw_ellipse(center, rad, get_color());
     }
-    void Circle::translate(Point &xy) const
+    void Circle::translate(const Point &xy)
     {
-        get_center().translate(xy);
+        this->center = this->center.translate(xy);
     }
-    void Circle::rotate(int &trans_scalar) const
+    void Circle::rotate(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        this->center = this->center.rotate(origin,trans_scalar);
     }
-    void Circle::scale(int &trans_scalar) const
+    void Circle::scale(int &trans_scalar) 
     {
         //@ todo
     }
@@ -82,18 +87,27 @@ namespace svg
             current = next; //o ponto next será o start da próxima iteração
         }
     }
-    void Polyline::translate(Point &xy) const
+    void Polyline::translate(const Point &xy) 
     {
+        std::vector<Point> new_vec;
         //a cada ponto da polyline, deslocar esse ponto
-        for(Point pt: points){
-            pt.translate(xy);
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].translate(xy);
+            new_vec.push_back(new_p);
         }
+        this->points = new_vec;
     }
-    void Polyline::rotate(int &trans_scalar) const
+    void Polyline::rotate(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].rotate(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
-    void Polyline::scale(int &trans_scalar) const
+    void Polyline::scale(int &trans_scalar) 
     {
         //@ todo
     }
@@ -107,16 +121,17 @@ namespace svg
     { 
         img.draw_line(start, end, get_stroke());
     }
-    void Line::translate(Point &xy) const
+    void Line::translate(const Point &xy) 
     {
-        start.translate(xy);
-        end.translate(xy);
+        start = start.translate(xy);
+        end = end.translate(xy);
     }
-    void Line::rotate(int &trans_scalar) const
+    void Line::rotate(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        start = start.rotate(origin,trans_scalar);
+        end = end.rotate(origin,trans_scalar);
     }
-    void Line::scale(int &trans_scalar) const
+    void Line::scale(int &trans_scalar) 
     {
         //@ todo
     }
@@ -135,17 +150,27 @@ namespace svg
     {
         img.draw_polygon(points, fill);
     }
-    void Polygon::translate(Point &xy) const
+    void Polygon::translate(const Point &xy) 
     {
-        for(Point pt: points){
-            pt.translate(xy);
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].translate(xy);
+            new_vec.push_back(new_p);
         }
+        this->points = new_vec;
     }
-    void Polygon::rotate(int &trans_scalar) const
+    void Polygon::rotate(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].rotate(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
-    void Polygon::scale(int &trans_scalar) const
+    void Polygon::scale(int &trans_scalar) 
     {
         //@ todo
     }
@@ -177,16 +202,17 @@ namespace svg
 
         img.draw_polygon(rect_pts,get_color());
     }
-    void Rect::translate(Point &xy) const
+    void Rect::translate(const Point &xy) 
     {
         //apenas é necessário fazer o start porque no draw ele altera os restantes
-        start.translate(xy);
+        this->start = this->start.translate(xy);
     }
-    void Rect::rotate(int &trans_scalar) const
-    {
-        //@ todo
+    void Rect::rotate(Point &origin, int &trans_scalar) 
+    {   
+        //@todo : not working // fazer todos pts??
+        this->start = this->start.rotate(origin,trans_scalar);
     }
-    void Rect::scale(int &trans_scalar) const
+    void Rect::scale(int &trans_scalar) 
     {
         //@ todo
     }

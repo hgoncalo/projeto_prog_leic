@@ -18,6 +18,51 @@
         //OBS : A função xml_elem->Attribute("nome") permite ir buscar o valor do atributo num determinado elemento
         //A variante ->IntAttribute permite ir buscar o valor inteiro associado a esse atributo
 
+
+        // função auxiliar que permite fazer transform de um child element
+        void child_transform(SVGElement* svg_ptr, XMLElement *xml_elem){
+            std::string transform_str = xml_elem->Attribute("transform");
+            //std::cout << '\n' << "--------------/---------";
+            //std::cout << '\n' << "[TESTE] Transform: " << transform_str << '\n';
+            
+            int first_par = transform_str.find_first_of("(");
+            int last_par = transform_str.find_first_of(")");
+            //get transform class (translate,rotate,scale)
+            std::string transform_class = transform_str.substr(0,first_par);
+            std::cout << transform_class << '\n';
+            //get the attributes/points
+            istringstream iss(transform_str.substr(first_par+1,last_par-(first_par+1)));
+            std::string current;
+            if (transform_class == "translate")
+            {
+                std::vector<int> current_pts;
+                while(iss >> current)
+                {
+                    //OBS: Pode ter um espaço vazio ou uma virgula, não esquecer o 2º caso!
+                    size_t comma = current.find_first_of(',');
+                    if (comma < iss.str().length()){
+                        current_pts.push_back(stoi(current.substr(0,comma)));
+                        current_pts.push_back(stoi(current.substr(comma+1)));
+                    }
+                    else {
+                        current_pts.push_back(stoi(current));
+                    }
+                }
+                Point iss_point = {current_pts[0],current_pts[1]};
+                svg_ptr->translate(iss_point);
+            }
+            else if (transform_class == "rotate"){
+                // ou caso para onde é transform-origin
+                int deg;
+                //no transform é sempre 0,0
+                Point origin = {0,0};
+                while (iss >> current){
+                    deg = stoi(current);
+                }
+               svg_ptr->rotate(origin,deg);
+            }
+        }
+
         void read_elements(XMLElement *xml_elem, int indentation,vector<SVGElement *>& svg_elements)
         {
             for (int i = 0; i < indentation; i++){
@@ -42,46 +87,13 @@
 
                 Ellipse* elp_p = new Ellipse(fill,center,rad); //criar um pointer para um novo objeto
 
+                //se o transform não for nulo, há algo para dar transform
                 if (xml_elem->Attribute("transform") != nullptr)
                 {
-                    std::string transform_str = xml_elem->Attribute("transform");
-                    //std::cout << '\n' << "--------------/---------";
-                    //std::cout << '\n' << "[TESTE] Transform: " << transform_str << '\n';
-                    
-                    int first_par = transform_str.find_first_of("(");
-                    int last_par = transform_str.find_first_of(")");
-
-                    //get transform class (translate,rotate,scale)
-                    std::string transform_class = transform_str.substr(0,first_par);
-                    std::cout << transform_class << '\n';
-
-                    //get the attributes/points
-                    istringstream iss(transform_str.substr(first_par+1,last_par-(first_par+1)));
-                    std::string current;
-
-                    if (transform_class == "translate")
-                    {
-                        std::vector<int> current_pts;
-                        while(iss >> current)
-                        {
-                            current_pts.push_back(stoi(current));
-                        }
-                        Point iss_point = {current_pts[0],current_pts[1]};
-                        std::cout << '\n' << "[TESTE] : DID TRANSLATE!" << '\n';
-                        //como dar call ao transform?!
-                        elp_p->translate(iss_point);
-                    }
-                    //else 
-                    //{
-                    //    int iss_atr;
-                    //    while(iss >> current)
-                    //    {
-                    //        iss_atr = stoi(current);
-                    //    }
-                    //    //@todo           
-                    //}
-                    
+                    //invocar a func child transform
+                    child_transform(elp_p,xml_elem);
                 }
+
 
                 //ler dentro do atributo para facilitar grupos/use
                 //se transform != vazio, existe transform para fazer, 
@@ -103,6 +115,10 @@
                 int rad = xml_elem->IntAttribute("r");
 
                 Circle* crc_p = new Circle(fill,center,rad);
+                if (xml_elem->Attribute("transform") != nullptr)
+                {
+                    child_transform(crc_p,xml_elem);
+                }
                 svg_elements.push_back(crc_p);        
             }
             else if (strcmp(xml_elem->Name(),"polyline") == 0)
@@ -131,6 +147,10 @@
                 }
 
                 Polyline* pln_p = new Polyline(stroke,pts_vtr);
+                if (xml_elem->Attribute("transform") != nullptr)
+                {
+                    child_transform(pln_p,xml_elem);
+                }
                 svg_elements.push_back(pln_p);  
             }
             else if (strcmp(xml_elem->Name(),"line") == 0)
@@ -142,6 +162,10 @@
                 Point end = {xml_elem->IntAttribute("x2"),xml_elem->IntAttribute("y2")};
 
                 Line* lne_p = new Line(stroke,start,end);
+                if (xml_elem->Attribute("transform") != nullptr)
+                {
+                    child_transform(lne_p,xml_elem);
+                }
                 svg_elements.push_back(lne_p);
             }
             else if (strcmp(xml_elem->Name(),"polygon") == 0)
@@ -169,6 +193,10 @@
                 }
 
                 Polygon* ply_p = new Polygon(fill,pts_vtr);
+                if (xml_elem->Attribute("transform") != nullptr)
+                {
+                    child_transform(ply_p,xml_elem);
+                }
                 svg_elements.push_back(ply_p);
             }
             else if (strcmp(xml_elem->Name(),"rect") == 0)
@@ -181,6 +209,10 @@
                 Point start = {xml_elem->IntAttribute("x"),xml_elem->IntAttribute("y")};
 
                 Rect* rec_p = new Rect(fill,start,width,height);
+                if (xml_elem->Attribute("transform") != nullptr)
+                {
+                    child_transform(rec_p,xml_elem);
+                }
                 svg_elements.push_back(rec_p);
             }
             
