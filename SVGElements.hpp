@@ -15,6 +15,12 @@ namespace svg
         SVGElement();
         virtual ~SVGElement();
         virtual void draw(PNGImage &img) const = 0;
+
+        //implementação das funções virtuais puras TRANSFORM,ROTATE,SCALE
+        //OBS : Não há multiple transforms!
+        virtual void translate(Point &xy) const = 0;
+        virtual void rotate(int &trans_scalar) const = 0;
+        virtual void scale(int &trans_scalar) const = 0;
     };
 
     // Declaration of namespace functions
@@ -39,6 +45,9 @@ namespace svg
         Color get_color() const;
         Point get_center() const;
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar)  const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         Color fill;
@@ -56,6 +65,9 @@ namespace svg
         Circle(const Color &fill, const Point &center, const int &radius);
         int get_radius() const;
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar) const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         int radius_;
@@ -75,6 +87,9 @@ namespace svg
         Polyline(const Color &stroke);
         Color get_stroke() const;
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar) const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         Color stroke;
@@ -93,6 +108,9 @@ namespace svg
 
         Line(const Color &stroke, const Point &start, const Point &end);
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar) const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         Point start, end;
@@ -107,7 +125,11 @@ namespace svg
     public:
         Polygon(const Color &fill, const std::vector<Point> &points);
         Polygon(const Color &fill);
+        Color get_color() const;
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar) const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         Color fill;
@@ -126,9 +148,11 @@ namespace svg
         //No CPP implementa-se cada elemento da classe
         
         Rect(const Color &fill, const Point &start, const int &width, const int &height);
-        //atualizar o vetor do polygon???
 
         void draw(PNGImage &img) const override;
+        virtual void translate(Point &xy) const override;
+        virtual void rotate(int &trans_scalar) const override;
+        virtual void scale(int &trans_scalar) const override;
 
     private:
         Point start;

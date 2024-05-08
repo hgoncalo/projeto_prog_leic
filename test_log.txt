@@ -1,8 +1,16 @@
->>>> [1] polygon_1 <<<<
-svg --> [ ] 
-  polygon --> [ ] 
-  polygon --> [ ] 
->>>> [2] polygon_2 <<<<
-svg --> [ ] 
-  polygon --> [ ] 
-  polygon --> [ ] 
+>>>> [1] translate_ellipse <<<<
+svg --> [ width="100" height="100" xmlns="http://www.w3.org/2000/svg" ] 
+  ellipse --> [ cx="25" cy="25" rx="20" ry="15" fill="green" ] 
+  ellipse --> [translate
+
+[TESTE] : DID TRANSLATE!
+ cx="25" cy="25" rx="20" ry="15" fill="blue" transform="translate(50 0)" ] 
+  ellipse --> [translate
+
+[TESTE] : DID TRANSLATE!
+ cx="25" cy="25" rx="15" ry="20" fill="red" transform="translate(0 50)" ] 
+  ellipse --> [translate
+
+[TESTE] : DID TRANSLATE!
+ cx="25" cy="25" rx="15" ry="20" fill="yellow" transform="translate(50 50)" ] 
+pixel (5 25): expected 0 255 0 got 0 0 255
