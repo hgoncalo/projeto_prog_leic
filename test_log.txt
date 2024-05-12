@@ -621,7 +621,7 @@ svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ]
       circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
     polygon --> [rotate
  fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" transform-origin="250 250" transform="rotate(45)" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
+pixel (0 250): expected 255 255 255 got 255 0 0
 >>>> [13] group_5 <<<<
 svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ] 
   g --> [ transform-origin="250 250" transform="translate(10,10)" ] 
@@ -635,7 +635,7 @@ svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ]
     g --> [ ] 
       polygon --> [rotate
  fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" transform-origin="250 250" transform="rotate(45)" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
+pixel (0 250): expected 255 255 255 got 255 0 0
 >>>> [14] group_6 <<<<
 svg --> [ width="420" height="620" xmlns="http://www.w3.org/2000/svg" ] 
   g --> [ ] 
@@ -1225,7 +1225,6 @@ svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ]
  cx="300" cy="200" r="100" fill="green" transform="rotate(225)" transform-origin="300 300" ] 
   circle --> [rotate
  cx="300" cy="200" r="100" fill="blue" transform="rotate(270)" transform-origin="300 300" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
 >>>> [29] rotate_line <<<<
 svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ] 
   line --> [ x1="0" y1="0" x2="100" y2="100" stroke="black" ] 
@@ -1247,7 +1246,6 @@ svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ]
  x1="50" y1="50" x2="100" y2="100" stroke="blue" transform="rotate(60)" transform-origin="75 75" ] 
   line --> [rotate
  x1="50" y1="50" x2="100" y2="100" stroke="yellow" transform="rotate(-60)" transform-origin="75 75" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
 >>>> [31] rotate_polygon <<<<
 svg --> [ width="250" height="250" xmlns="http://www.w3.org/2000/svg" ] 
   polygon --> [rotate
@@ -1268,7 +1266,6 @@ svg --> [ width="250" height="250" xmlns="http://www.w3.org/2000/svg" ]
  points="50,50 50,150 150,150 150,100" transform="rotate(10)" transform-origin="50 50" fill="green" ] 
   polygon --> [rotate
  points="50,50 50,150 150,150 150,100" transform="rotate(20)" transform-origin="50 50" fill="blue" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
 >>>> [33] rotate_polyline <<<<
 svg --> [ width="400" height="400" xmlns="http://www.w3.org/2000/svg" ] 
   polyline --> [ points="20,20 40,25 60,40 80,120 120,140 200,180 300,300" fill="none" stroke="red" ] 
@@ -1280,7 +1277,6 @@ svg --> [ width="400" height="400" xmlns="http://www.w3.org/2000/svg" ]
 svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ] 
   polyline --> [rotate
  points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="#0000ff" transform="rotate(270)" transform-origin="100 100" ] 
-test: PNGImage.cpp:63: svg::Color& svg::PNGImage::at(int, int): Assertion `y >= 0 && y < height_' failed.
 >>>> [35] rotate_rect <<<<
 svg --> [ width="300" height="300" xmlns="http://www.w3.org/2000/svg" ] 
   rect --> [rotate
@@ -1288,7 +1284,6 @@ svg --> [ width="300" height="300" xmlns="http://www.w3.org/2000/svg" ]
   rect --> [rotate
  x="50" y="50" width="200" height="200" transform="rotate(-10)" fill="green" ] 
   rect --> [ x="50" y="50" width="200" height="200" fill="red" ] 
-pixel (6 252): expected 0 0 255 got 255 255 255
 >>>> [36] rotate_rect_with_origin <<<<
 svg --> [ width="300" height="300" xmlns="http://www.w3.org/2000/svg" ] 
   rect --> [rotate
@@ -1297,7 +1292,6 @@ svg --> [ width="300" height="300" xmlns="http://www.w3.org/2000/svg" ]
  x="50" y="50" width="200" height="200" transform="rotate(30)" transform-origin="150 150" fill="blue" ] 
   rect --> [rotate
  x="50" y="50" width="200" height="200" transform="rotate(60)" transform-origin="150 150" fill="green" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
 >>>> [37] scale_circle <<<<
 svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ] 
   circle --> [scale
@@ -1307,7 +1301,6 @@ svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ]
   circle --> [scale
  cx="30" cy="30" r="20" fill="red" transform="scale(2)" ] 
   circle --> [ cx="30" cy="30" r="20" fill="black" ] 
-pixel (20 60): expected 255 0 0 got 255 255 255
 >>>> [38] scale_circle_with_origin <<<<
 svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ] 
   circle --> [scale
@@ -1319,7 +1312,6 @@ svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ]
   circle --> [scale
  transform-origin="300 300" cx="300" cy="300" r="20" fill="red" transform="scale(2)" ] 
   circle --> [ transform-origin="300 300" cx="300" cy="300" r="20" fill="black" ] 
-pixel (100 300): expected 0 0 255 got 255 255 255
 >>>> [39] scale_ellipse <<<<
 svg --> [ width="450" height="350" xmlns="http://www.w3.org/2000/svg" ] 
   ellipse --> [scale
@@ -1329,7 +1321,6 @@ svg --> [ width="450" height="350" xmlns="http://www.w3.org/2000/svg" ]
   ellipse --> [scale
  cx="30" cy="30" rx="20" ry="10" fill="red" transform="scale(2)" ] 
   ellipse --> [ cx="30" cy="30" rx="20" ry="10" fill="black" ] 
-pixel (20 60): expected 255 0 0 got 255 255 255
 >>>> [40] scale_ellipse_with_origin <<<<
 svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ] 
   ellipse --> [scale
@@ -1341,7 +1332,6 @@ svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ]
   ellipse --> [scale
  transform-origin="300 300" cx="300" cy="300" rx="20" ry="25" fill="red" transform="scale(2)" ] 
   ellipse --> [ transform-origin="300 300" cx="300" cy="300" rx="20" ry="25" fill="black" ] 
-pixel (100 300): expected 0 0 255 got 255 255 255
 >>>> [41] scale_line <<<<
 svg --> [ width="850" height="850" xmlns="http://www.w3.org/2000/svg" ] 
   line --> [scale
@@ -1350,7 +1340,6 @@ svg --> [ width="850" height="850" xmlns="http://www.w3.org/2000/svg" ]
  x1="50" y1="50" x2="198" y2="198" transform="scale(4)" stroke="green" ] 
   line --> [scale
  x1="198" y1="198" x2="198" y2="1" transform="scale(3)" stroke="blue" ] 
-pixel (50 50): expected 255 255 255 got 0 255 0
 >>>> [42] scale_line_with_origin <<<<
 svg --> [ width="660" height="660" xmlns="http://www.w3.org/2000/svg" ] 
   line --> [scale
@@ -1359,7 +1348,6 @@ svg --> [ width="660" height="660" xmlns="http://www.w3.org/2000/svg" ]
  x1="50" y1="50" x2="198" y2="198" transform="scale(3)" transform-origin="0 50" stroke="green" ] 
   line --> [scale
  x1="198" y1="198" x2="198" y2="1" transform="scale(2)" transform-origin="198 1" stroke="blue" ] 
-pixel (50 50): expected 255 0 0 got 0 255 0
 >>>> [43] scale_polygon <<<<
 svg --> [ width="210" height="210" xmlns="http://www.w3.org/2000/svg" ] 
   polygon --> [ points="25,25 50,25 50,50" fill="red" ] 
@@ -1367,7 +1355,6 @@ svg --> [ width="210" height="210" xmlns="http://www.w3.org/2000/svg" ]
  points="25,25 50,25 50,50" fill="blue" transform="scale(2)" ] 
   polygon --> [scale
  points="25,25 50,25 50,50" fill="green" transform="scale(4)" ] 
-pixel (25 25): expected 255 0 0 got 0 255 0
 >>>> [44] scale_polygon_with_origin <<<<
 svg --> [ width="500" height="500" xmlns="http://www.w3.org/2000/svg" ] 
   polygon --> [scale
@@ -1376,7 +1363,6 @@ svg --> [ width="500" height="500" xmlns="http://www.w3.org/2000/svg" ]
  points="50,50 50,150 150,150 150,100" transform="scale(3)" transform-origin="0 50" fill="black" ] 
   polygon --> [scale
  points="50,50 50,150 150,150 150,100" transform="scale(2)" transform-origin="50 0" fill="red" ] 
-pixel (50 50): expected 255 255 0 got 255 0 0
 >>>> [45] scale_polyline <<<<
 svg --> [ width="850" height="850" xmlns="http://www.w3.org/2000/svg" ] 
   polyline --> [ points="20,20 40,25 60,40 80,120 120,140 200,180" fill="none" stroke="red" ] 
@@ -1384,7 +1370,6 @@ svg --> [ width="850" height="850" xmlns="http://www.w3.org/2000/svg" ]
  points="20,20 40,25 60,40 80,120 120,140 200,180" fill="none" stroke="blue" transform="scale(2)" ] 
   polyline --> [scale
  points="20,20 40,25 60,40 80,120 120,140 200,180" fill="none" stroke="black" transform="scale(4)" ] 
-pixel (20 20): expected 255 0 0 got 0 0 0
 >>>> [46] scale_polyline_with_origin <<<<
 svg --> [ width="600" height="660" xmlns="http://www.w3.org/2000/svg" ] 
   polyline --> [ points="120,120 140,125 160,140 180,220 220,240 300,280" fill="none" stroke="red" ] 
@@ -1392,7 +1377,6 @@ svg --> [ width="600" height="660" xmlns="http://www.w3.org/2000/svg" ]
  points="120,120 140,125 160,140 180,220 220,240 300,280" fill="none" stroke="blue" transform="scale(2)" transform-origin="170 100" ] 
   polyline --> [scale
  points="120,120 140,125 160,140 180,220 220,240 300,280" fill="none" stroke="green" transform="scale(3)" transform-origin="170 100" ] 
-pixel (20 160): expected 0 255 0 got 255 255 255
 >>>> [47] scale_rect <<<<
 svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ] 
   rect --> [scale
@@ -1402,7 +1386,6 @@ svg --> [ width="600" height="600" xmlns="http://www.w3.org/2000/svg" ]
   rect --> [scale
  x="0" y="0" width="25" height="20" fill="red" transform="scale(2)" ] 
   rect --> [ x="0" y="0" width="25" height="20" fill="black" ] 
-pixel (0 20): expected 255 0 0 got 255 255 255
 >>>> [48] scale_rect_with_origin <<<<
 svg --> [ width="301" height="161" xmlns="http://www.w3.org/2000/svg" ] 
   rect --> [scale
@@ -1410,7 +1393,6 @@ svg --> [ width="301" height="161" xmlns="http://www.w3.org/2000/svg" ]
   rect --> [scale
  transform-origin="115 90" x="100" y="80" width="30" height="20" fill="red" transform="scale(2)" ] 
   rect --> [ transform-origin="115 90" x="100" y="80" width="30" height="20" fill="blue" ] 
-pixel (55 50): expected 0 255 0 got 255 255 255
 >>>> [49] transform_several <<<<
 svg --> [ width="180" height="260" xmlns="http://www.w3.org/2000/svg" ] 
   polygon --> [ points="0,0 0,50 50,50" fill="red" ] 
@@ -1422,7 +1404,6 @@ svg --> [ width="180" height="260" xmlns="http://www.w3.org/2000/svg" ]
   polygon --> [ points="0,150 0,200 50,200" fill="red" ] 
   polygon --> [scale
  points="75,150 75,200 125,200" fill="blue" transform-origin="75 150" transform="scale(2)" ] 
-test: PNGImage.cpp:62: svg::Color& svg::PNGImage::at(int, int): Assertion `x >= 0 && x < width_' failed.
 >>>> [50] translate_circle <<<<
 svg --> [ width="101" height="101" xmlns="http://www.w3.org/2000/svg" ] 
   circle --> [ cx="25" cy="25" r="25" fill="green" ] 
@@ -1555,4 +1536,4 @@ svg --> [ width="2200" height="1100" xmlns="http://www.w3.org/2000/svg" ]
         use --> [ href="#r021" transform="rotate(90)" ] 
         use --> [ href="#r021" transform="rotate(180)" ] 
     use --> [ href="#r0" transform="translate(530 0)" ] 
-pixel (0 20): expected 0 0 0 got 255 255 255
+pixel (0 20): expected 0 0 0 got 255 0 0

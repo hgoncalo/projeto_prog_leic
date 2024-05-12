@@ -11,26 +11,45 @@
 
     namespace svg
     {
-        //@author : hgoncalo
         //função read_elements para ir buscar cada elemento do xml
-        //@todo : implementar parse para cores
 
         //OBS : A função xml_elem->Attribute("nome") permite ir buscar o valor do atributo num determinado elemento
         //A variante ->IntAttribute permite ir buscar o valor inteiro associado a esse atributo
 
+        // função auxiliar que permite ir buscar a origem do transform
+        Point get_origin(XMLElement *xml_elem){
+            //é (0,0) no caso do transform, caso haja transform-origin é o input do svg
+            if (xml_elem->Attribute("transform-origin") != nullptr)
+            {
+                std::vector<int> points;
+                std::string transform_origin = xml_elem->Attribute("transform-origin");
+                istringstream origin_iss(transform_origin);
+                std::string current_point;
+                while (origin_iss >> current_point)
+                {
+                    points.push_back(stoi(current_point));
+                }
+                return {points[0],points[1]};
+            }
+            else 
+            {
+                return {0,0};
+            }
+        }
 
         // função auxiliar que permite fazer transform de um child element
         void child_transform(SVGElement* svg_ptr, XMLElement *xml_elem){
-            std::string transform_str = xml_elem->Attribute("transform");
-            //std::cout << '\n' << "--------------/---------";
-            //std::cout << '\n' << "[TESTE] Transform: " << transform_str << '\n';
-            
+            std::string transform_str = xml_elem->Attribute("transform"); 
+
+            //obter os limites entre o transform e os pontos do transform     
             int first_par = transform_str.find_first_of("(");
             int last_par = transform_str.find_first_of(")");
-            //get transform class (translate,rotate,scale)
+
+            //obter transform class (translate,rotate,scale)
             std::string transform_class = transform_str.substr(0,first_par);
             std::cout << transform_class << '\n';
-            //get the attributes/points
+
+            //obter os atributos/pontos
             istringstream iss(transform_str.substr(first_par+1,last_par-(first_par+1)));
             std::string current;
             if (transform_class == "translate")
@@ -38,7 +57,7 @@
                 std::vector<int> current_pts;
                 while(iss >> current)
                 {
-                    //OBS: Pode ter um espaço vazio ou uma virgula, não esquecer o 2º caso!
+                    //OBS: Pode ter um espaço vazio ou uma virgula, daí o caso de encontrar a vírgula
                     size_t comma = current.find_first_of(',');
                     if (comma < iss.str().length()){
                         current_pts.push_back(stoi(current.substr(0,comma)));
@@ -51,15 +70,23 @@
                 Point iss_point = {current_pts[0],current_pts[1]};
                 svg_ptr->translate(iss_point);
             }
-            else if (transform_class == "rotate"){
-                // ou caso para onde é transform-origin
-                int deg;
-                //no transform é sempre 0,0
-                Point origin = {0,0};
-                while (iss >> current){
-                    deg = stoi(current);
+            else if (transform_class == "rotate" || transform_class == "scale")
+            {
+                int scalar;
+                // chamada à função auxiliar para ir buscar a origem do transform
+                Point origin = get_origin(xml_elem);
+                while (iss >> current)
+                {
+                    scalar = stoi(current);
                 }
-               svg_ptr->rotate(origin,deg);
+               if (transform_class == "rotate")
+               {
+                    svg_ptr->rotate(origin,scalar);
+               } 
+               else {
+                    svg_ptr->scale(origin,scalar);
+               }
+
             }
         }
 
@@ -70,13 +97,9 @@
             }
             std::cout << xml_elem->Name() << " --> [";
 
-            //obter transform
-            //ler os atributos do transform!
-
-            //atribuir os atributos certos a cada tipo
+            // Dar fetch ao objeto com o qual vamos trabalhar
             if (strcmp(xml_elem->Name(),"ellipse") == 0)
             {
-                //std::cout << '\n' << "[TEST] : ELLIPSE ";
                 Color fill = parse_color(xml_elem->Attribute("fill"));
                 Point center = {xml_elem->IntAttribute("cx"),xml_elem->IntAttribute("cy")};
                 Point rad = {xml_elem->IntAttribute("rx"),xml_elem->IntAttribute("ry")};
@@ -90,26 +113,15 @@
                 //se o transform não for nulo, há algo para dar transform
                 if (xml_elem->Attribute("transform") != nullptr)
                 {
-                    //invocar a func child transform
                     child_transform(elp_p,xml_elem);
                 }
 
-
-                //ler dentro do atributo para facilitar grupos/use
-                //se transform != vazio, existe transform para fazer, 
-                
-                //provavelmente fazer isto numa função auxiliar!
-                //IMPORTANTE : ler para transform-origin tb!!!
-
-                //elp_p->translate();
                 svg_elements.push_back(elp_p); //alocá-lo no vetor acima mencionado
                 //verificar se vetor é corretamente eliminado no fim (no memory leaks)
             
             }
             else if (strcmp(xml_elem->Name(),"circle") == 0)
             {
-                //std::cout << '\n' << "[TEST] : CIRCLE "; 
-
                 Color fill = parse_color(xml_elem->Attribute("fill"));
                 Point center = {xml_elem->IntAttribute("cx"),xml_elem->IntAttribute("cy")};
                 int rad = xml_elem->IntAttribute("r");
@@ -123,8 +135,6 @@
             }
             else if (strcmp(xml_elem->Name(),"polyline") == 0)
             {
-                //std::cout << '\n' << "[TEST] : POLYLINE ";   
-
                 Color stroke = parse_color(xml_elem->Attribute("stroke"));
 
                 //fazer um vetor de pontos para transformar a string num conjunto válido de pontos
@@ -138,7 +148,7 @@
                 //Encontrar as coordenadas X e Y (que estão separadas por uma vírgula)
                 //O que está para trás da virgula será o X, para a frente será o Y
                 //Com substr() encontram-se essas coordenadas, que são transformadas para int usando stoi()
-                //Os pontos são depois colocados num vetor que será chamado pelo construtor do Polygon
+                //Os pontos são depois colocados num vetor que será chamado pelo construtor do Polygon/Polyline
                 while (iss_pts){
                     iss_pts >> current;
                     size_t comma = current.find_first_of(',');
@@ -155,8 +165,6 @@
             }
             else if (strcmp(xml_elem->Name(),"line") == 0)
             {
-                //std::cout << '\n' << "[TEST] : LINE ";   
-
                 Color stroke = parse_color(xml_elem->Attribute("stroke"));
                 Point start = {xml_elem->IntAttribute("x1"),xml_elem->IntAttribute("y1")};
                 Point end = {xml_elem->IntAttribute("x2"),xml_elem->IntAttribute("y2")};
@@ -170,21 +178,12 @@
             }
             else if (strcmp(xml_elem->Name(),"polygon") == 0)
             {
-                //std::cout << '\n' << "[TEST] : POLYGON ";  
                 Color fill = parse_color(xml_elem->Attribute("fill"));
-
-                //fazer um vetor de pontos para transformar a string num conjunto válido de pontos
-                //com o istringstream fazer slice de cada ponto (separado por virgulas)
                 std::vector<Point> pts_vtr;
                 std::string pts = xml_elem->Attribute("points");
                 istringstream iss_pts(pts);
                 string current;
 
-                //LÓGICA : A cada linha (que contem um ponto)
-                //Encontrar as coordenadas X e Y (que estão separadas por uma vírgula)
-                //O que está para trás da virgula será o X, para a frente será o Y
-                //Com substr() encontram-se essas coordenadas, que são transformadas para int usando stoi()
-                //Os pontos são depois colocados num vetor que será chamado pelo construtor do Polygon
                 while (iss_pts){
                     iss_pts >> current;
                     size_t comma = current.find_first_of(',');
@@ -201,14 +200,30 @@
             }
             else if (strcmp(xml_elem->Name(),"rect") == 0)
             {
-                //std::cout << '\n' << "[TEST] : RECT ";
-
                 Color fill = parse_color(xml_elem->Attribute("fill"));
                 int width = xml_elem->IntAttribute("width");
                 int height = xml_elem->IntAttribute("height");
                 Point start = {xml_elem->IntAttribute("x"),xml_elem->IntAttribute("y")};
+                
+                //obter todos os pontos do retângulo
+                // (x,y) -> 0
+                // (x+width,y) -> 1
+                // (x,y+height) -> 3
+                // (x+width,y+height) -> 2
+                // meter num vetor de pontos
+                std::vector<Point> rect_pts;
 
-                Rect* rec_p = new Rect(fill,start,width,height);
+                //OBS : width-1 e height-1 são importantes, porque são os limites da figura!
+                // precisamos de fazer -1 porque começamos no índice 0! (e não no 1)
+                Point x1 = {start.x+width-1,start.y};
+                Point x2 = {start.x+width-1,start.y+height-1};
+                Point x3 = {start.x,start.y+height-1};
+                rect_pts.push_back(start);
+                rect_pts.push_back(x1);
+                rect_pts.push_back(x2);
+                rect_pts.push_back(x3);
+
+                Rect* rec_p = new Rect(fill,rect_pts,width,height);
                 if (xml_elem->Attribute("transform") != nullptr)
                 {
                     child_transform(rec_p,xml_elem);
@@ -216,7 +231,11 @@
                 svg_elements.push_back(rec_p);
             }
             
-            //fetch attributes (just for testing)
+
+            //
+            // FETCH ATTRIBUTES (just for testing)
+            //
+
             for (const XMLAttribute *attr = xml_elem->FirstAttribute(); attr != nullptr; attr = attr->Next())
             {
                 std::cout << " " << attr->Name() << "=\"" << attr->Value() << "\"";
@@ -229,6 +248,10 @@
                 //std::cout << "[TESTE] ELEMENTO ATUAL : ";
                 svg::read_elements(child, indentation + 2,svg_elements);
             }
+
+            //
+            // END OF FETCH
+            //
         }
 
 
@@ -246,9 +269,7 @@
             dimensions.y = xml_elem->IntAttribute("height");
 
             //implementar DOXYGEN
-
-            //implementação do read_elements
-            svg_elements = {};
+            //chamada de função principal implementada
             svg::read_elements(xml_elem, 0, svg_elements);
             
         }

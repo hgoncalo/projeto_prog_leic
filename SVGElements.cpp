@@ -26,17 +26,19 @@ namespace svg
     }
     void Ellipse::translate(const Point &xy)
     {
-        //std::cout << "Center before: " << get_center().x << get_center().y << '\n'; 
         this->center = center.translate(xy);
-        //std::cout << "Center after: " << get_center().x << get_center().y << '\n';
     }
     void Ellipse::rotate(Point &origin, int &trans_scalar) 
     {
-        this->center = center.rotate(this->center,trans_scalar);
+        this->center = center.rotate(origin,trans_scalar);
     }
-    void Ellipse::scale(int &trans_scalar) 
+    void Ellipse::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        this->center = this->center.scale(origin,trans_scalar);
+
+        //ao darmos scale à ellipse, também aumentamos o raio da ellipse
+        this->radius.x = this->radius.x * trans_scalar;
+        this->radius.y = this->radius.y * trans_scalar;
     }
 
 
@@ -61,9 +63,10 @@ namespace svg
     {
         this->center = this->center.rotate(origin,trans_scalar);
     }
-    void Circle::scale(int &trans_scalar) 
+    void Circle::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        this->center = this->center.scale(origin,trans_scalar);
+        this->radius = radius * trans_scalar;
     }
 
 
@@ -79,7 +82,7 @@ namespace svg
     void Polyline::draw(PNGImage &img) const
     {
         Point current = points[0]; //assumindo que o vetor points não é vazio, há sempre um elemento inicial
-        //img.draw_line(());
+        
         // os pontos ficam "start,start , end,end , depois o end,end é o start,start do ponto seguinte"
         for (size_t i = 1; i < points.size(); i++){
             Point next = points[i]; //o ponto seguinte será o 1º end point
@@ -107,9 +110,15 @@ namespace svg
         }
         this->points = new_vec;
     }
-    void Polyline::scale(int &trans_scalar) 
+    void Polyline::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].scale(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
 
 
@@ -131,9 +140,10 @@ namespace svg
         start = start.rotate(origin,trans_scalar);
         end = end.rotate(origin,trans_scalar);
     }
-    void Line::scale(int &trans_scalar) 
+    void Line::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        start = start.scale(origin,trans_scalar);
+        end = end.scale(origin,trans_scalar);
     }
 
     
@@ -170,51 +180,56 @@ namespace svg
         }
         this->points = new_vec;
     }
-    void Polygon::scale(int &trans_scalar) 
+    void Polygon::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].scale(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
 
 
     //
     // RECT
     //
-    Rect::Rect(const Color &fill, const Point &start, const int &width, const int &height) : Polygon(fill), start(start), width(width), height(height){};
+    Rect::Rect(const Color &fill, const std::vector<Point> &points, const int &width, const int &height) : Polygon(fill), points(points), width(width), height(height){};
     void Rect::draw(PNGImage &img) const
     {
-        //obter todos os pontos do retângulo
-        // (x,y) -> 0
-        // (x+width,y) -> 1
-        // (x,y+height) -> 3
-        // (x+width,y+height) -> 2
-        // meter num vetor de pontos
-        std::vector<Point> rect_pts;
 
-        //OBS : width-1 e height-1 são importantes, porque são os limites da figura!
-        // precisamos de fazer -1 porque começamos no índice 0! (e não no 1)
-        Point x1 = {start.x+width-1,start.y};
-        Point x2 = {start.x+width-1,start.y+height-1};
-        Point x3 = {start.x,start.y+height-1};
-        rect_pts.push_back(start);
-        rect_pts.push_back(x1);
-        rect_pts.push_back(x2);
-        rect_pts.push_back(x3);
-
-        img.draw_polygon(rect_pts,get_color());
+        img.draw_polygon(points,get_color());
     }
     void Rect::translate(const Point &xy) 
     {
-        //apenas é necessário fazer o start porque no draw ele altera os restantes
-        this->start = this->start.translate(xy);
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].translate(xy);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
     void Rect::rotate(Point &origin, int &trans_scalar) 
     {   
-        //@todo : not working // fazer todos pts??
-        this->start = this->start.rotate(origin,trans_scalar);
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].rotate(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
-    void Rect::scale(int &trans_scalar) 
+    void Rect::scale(Point &origin, int &trans_scalar) 
     {
-        //@ todo
+        std::vector<Point> new_vec;
+        //a cada ponto da polyline, deslocar esse ponto
+        for(size_t i = 0; i< points.size(); i++){
+            Point new_p = points[i].scale(origin,trans_scalar);
+            new_vec.push_back(new_p);
+        }
+        this->points = new_vec;
     }
 
 }   

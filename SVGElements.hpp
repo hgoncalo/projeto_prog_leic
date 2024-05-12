@@ -20,7 +20,7 @@ namespace svg
         //OBS : Não há multiple transforms!
         virtual void translate(const Point &xy) = 0;
         virtual void rotate(Point &origin, int &trans_scalar)  = 0;
-        virtual void scale(int &trans_scalar)  = 0;
+        virtual void scale(Point &origin, int &trans_scalar)  = 0;
     };
 
     // Declaration of namespace functions
@@ -50,7 +50,7 @@ namespace svg
         //NÃO ALTERA NENHUM MEMBRO DA CLASSE, QUANDO QUEREMOS ALTERAR O CENTER, P.EX
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar)  override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
         Color fill;
@@ -70,7 +70,7 @@ namespace svg
         void draw(PNGImage &img) const override;
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
         Point center;
@@ -93,7 +93,7 @@ namespace svg
         void draw(PNGImage &img) const override;
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
         Color stroke;
@@ -114,7 +114,7 @@ namespace svg
         void draw(PNGImage &img) const override;
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
         Point start, end;
@@ -133,7 +133,7 @@ namespace svg
         void draw(PNGImage &img) const override;
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
         Color fill;
@@ -151,15 +151,15 @@ namespace svg
         //OBS : No HPP define-se a estrutura
         //No CPP implementa-se cada elemento da classe
         
-        Rect(const Color &fill, const Point &start, const int &width, const int &height);
+        Rect(const Color &fill, const std::vector<Point> &points, const int &width, const int &height);
 
         void draw(PNGImage &img) const override;
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
-        virtual void scale(int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
 
     private:
-        Point start;
+        std::vector<Point> points;
         int width,height;
     };
 }   
