@@ -9,6 +9,10 @@
     //included for map
     #include <map>
 
+    //included for replace
+    #include <algorithm>
+    #include <string>
+
     using namespace std;
     using namespace tinyxml2;
 
@@ -26,7 +30,6 @@
             {
                 std::vector<int> points;
                 std::string transform_origin = xml_elem->Attribute("transform-origin");
-                std::cout << "Transform origin attribute value: " << transform_origin << std::endl;
                 istringstream origin_iss(transform_origin);
                 std::string current_point;
                 while (origin_iss >> current_point)
@@ -43,7 +46,13 @@
 
         // função auxiliar que permite fazer transform de um child element
         void child_transform(SVGElement* svg_ptr, XMLElement *xml_elem){
-            std::string transform_str = xml_elem->Attribute("transform"); 
+            //std::cout << '\n' << xml_elem->Name() << '\n';
+            std::string transform_str = "";
+            if (xml_elem->Attribute("transform") != nullptr){
+                transform_str = xml_elem->Attribute("transform"); 
+                //tirar as virgulas
+                std::replace(transform_str.begin(),transform_str.end(),',',' ');
+            }
 
             //obter os limites entre o transform e os pontos do transform     
             int first_par = transform_str.find_first_of("(");
@@ -61,22 +70,15 @@
                 std::vector<int> current_pts;
                 while(iss >> current)
                 {
-                    //OBS: Pode ter um espaço vazio ou uma virgula, daí o caso de encontrar a vírgula
-                    size_t comma = current.find_first_of(',');
-                    if (comma < iss.str().length()){
-                        current_pts.push_back(stoi(current.substr(0,comma)));
-                        current_pts.push_back(stoi(current.substr(comma+1)));
-                    }
-                    else {
-                        current_pts.push_back(stoi(current));
-                    }
+                    std::cout << '\n' << current << '\n';
+                    current_pts.push_back(stoi(current));
                 }
                 Point iss_point = {current_pts[0],current_pts[1]};
                 svg_ptr->translate(iss_point);
             }
             else if (transform_class == "rotate" || transform_class == "scale")
             {
-                int scalar;
+                int scalar = 0;
                 // chamada à função auxiliar para ir buscar a origem do transform
                 Point origin = get_origin(xml_elem);
                 while (iss >> current)
@@ -282,7 +284,6 @@
                 std::string href = xml_elem->Attribute("href");
                 std::string id;
                 href = href.substr(1); //sem o #
-                std::string transform = xml_elem->Attribute("transform");
 
                 //se houver no mapa...             
                 auto iterator = elements_map.find(href);
@@ -293,7 +294,7 @@
                     SVGElement* new_element = (iterator->second)->copy();
                     child_transform(new_element,xml_elem);
                     svg_elements.push_back(new_element);
-
+    
                     // use também pode ter id
                     if (xml_elem->Attribute("id") != nullptr)
                     {
