@@ -303,7 +303,12 @@ namespace svg
     }
     SVGElement* Group::copy() 
     {
-        return new Group(*this);
+        std::vector<SVGElement*> new_elements;
+        for (SVGElement* element: elements)
+        {
+            new_elements.push_back(element->copy());
+        }
+        return new Group(new_elements);
     }
 
 }   

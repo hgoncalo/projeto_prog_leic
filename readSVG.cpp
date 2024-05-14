@@ -26,11 +26,12 @@
             {
                 std::vector<int> points;
                 std::string transform_origin = xml_elem->Attribute("transform-origin");
+                std::cout << "Transform origin attribute value: " << transform_origin << std::endl;
                 istringstream origin_iss(transform_origin);
                 std::string current_point;
                 while (origin_iss >> current_point)
                 {
-                    points.push_back(stoi(current_point));
+                    points.push_back(stoi(current_point));                 
                 }
                 return {points[0],points[1]};
             }
@@ -200,7 +201,6 @@
                 {
                     child_transform(lne_p,xml_elem);
                 }
-                svg_elements.push_back(lne_p);
                                 
                 if (xml_elem->Attribute("id") != nullptr)
                 {

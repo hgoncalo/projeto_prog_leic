@@ -1,22 +1,16 @@
->>>> [1] use_3 <<<<
-svg --> [  g --> [    circle --> [ cx="250" cy="250" r="250" fill="red" ] 
-    circle --> [ cx="250" cy="250" r="200" fill="white" ] 
-    circle --> [ cx="250" cy="250" r="150" fill="red" ] 
-    circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
-    polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
- id="captain_america_shield" ] 
+>>>> [1] use_5 <<<<
+svg --> [  g --> [    line --> [ x1="1" y1="198" x2="1" y2="1" stroke="red" ] 
+    line --> [ x1="1" y1="1" x2="198" y2="198" stroke="green" ] 
+    line --> [ x1="198" y1="198" x2="198" y2="1" stroke="blue" ] 
+ id="lines" transform="translate(50 50)" ] 
+translate
 
-  use --> [
-ITERATOR FIRST: captain_america_shield
+  g --> [    use --> [
+ITERATOR FIRST: lines
+rotate
+Transform origin attribute value: 150 150
+ href="#lines" transform="rotate(90)" transform-origin="150 150" ] 
+ transform="translate(250, 0)" ] 
 translate
- href="#captain_america_shield" transform="translate(500,0)" ] 
-  use --> [
-ITERATOR FIRST: captain_america_shield
-translate
- href="#captain_america_shield" transform="translate(0,500)" ] 
-  use --> [
-ITERATOR FIRST: captain_america_shield
-translate
- href="#captain_america_shield" transform="translate(500,500)" ] 
- width="1001" height="1001" xmlns="http://www.w3.org/2000/svg" ] 
-test: PNGImage.cpp:63: svg::Color& svg::PNGImage::at(int, int): Assertion `y >= 0 && y < height_' failed.
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
