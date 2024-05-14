@@ -20,6 +20,9 @@ namespace svg
     Point Ellipse::get_center() const {
         return center;
     }
+    Point Ellipse::get_radius() const {
+        return radius;
+    }
     void Ellipse::draw(PNGImage &img) const
     {
         img.draw_ellipse(center, radius, fill);
@@ -39,6 +42,10 @@ namespace svg
         //ao darmos scale à ellipse, também aumentamos o raio da ellipse
         this->radius.x = this->radius.x * trans_scalar;
         this->radius.y = this->radius.y * trans_scalar;
+    }
+    SVGElement* Ellipse::copy() 
+    {
+        return new Ellipse(*this);
     }
 
 
@@ -67,6 +74,10 @@ namespace svg
     {
         this->center = this->center.scale(origin,trans_scalar);
         this->radius = radius * trans_scalar;
+    }
+    SVGElement* Circle::copy() 
+    {
+        return new Circle(*this);
     }
 
 
@@ -120,6 +131,10 @@ namespace svg
         }
         this->points = new_vec;
     }
+    SVGElement* Polyline::copy() 
+    {
+        return new Polyline(*this);
+    }
 
 
     //
@@ -144,6 +159,10 @@ namespace svg
     {
         start = start.scale(origin,trans_scalar);
         end = end.scale(origin,trans_scalar);
+    }
+    SVGElement* Line::copy() 
+    {
+        return new Line(*this);
     }
 
     
@@ -190,6 +209,10 @@ namespace svg
         }
         this->points = new_vec;
     }
+    SVGElement* Polygon::copy() 
+    {
+        return new Polygon(*this);
+    }
 
 
     //
@@ -230,6 +253,10 @@ namespace svg
             new_vec.push_back(new_p);
         }
         this->points = new_vec;
+    }
+    SVGElement* Rect::copy() 
+    {
+        return new Rect(*this);
     }
 
     //
@@ -273,6 +300,10 @@ namespace svg
             delete element;
         }
         elements.clear();
+    }
+    SVGElement* Group::copy() 
+    {
+        return new Group(*this);
     }
 
 }   

@@ -6,6 +6,9 @@
     //included for istringstream
     #include <sstream>
 
+    //included for map
+    #include <map>
+
     using namespace std;
     using namespace tinyxml2;
 
@@ -90,12 +93,14 @@
             }
         }
 
-        void read_elements(XMLElement *xml_elem, int indentation,vector<SVGElement *>& svg_elements)
+        void read_elements(XMLElement *xml_elem, int indentation,vector<SVGElement *>& svg_elements,map<string, SVGElement*> &elements_map )
         {
             for (int i = 0; i < indentation; i++){
                 std::cout << " ";
             }
             std::cout << xml_elem->Name() << " --> [";
+
+            //mapa para guardar ocorrencias dos objetos definido no parametro
 
             // Dar fetch ao objeto com o qual vamos trabalhar
             if (strcmp(xml_elem->Name(),"ellipse") == 0)
@@ -103,6 +108,7 @@
                 Color fill = parse_color(xml_elem->Attribute("fill"));
                 Point center = {xml_elem->IntAttribute("cx"),xml_elem->IntAttribute("cy")};
                 Point rad = {xml_elem->IntAttribute("rx"),xml_elem->IntAttribute("ry")};
+                std::string id;
 
                 //alocar dinamicamente!
                 //svg_elements é um vetor que recebe objetos do tipo POINTER para SVGElement
@@ -115,7 +121,12 @@
                 {
                     child_transform(elp_p,xml_elem);
                 }
-
+                
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,elp_p});
+                }
                 svg_elements.push_back(elp_p); //alocá-lo no vetor acima mencionado
                 //verificar se vetor é corretamente eliminado no fim (no memory leaks)
             
@@ -125,13 +136,20 @@
                 Color fill = parse_color(xml_elem->Attribute("fill"));
                 Point center = {xml_elem->IntAttribute("cx"),xml_elem->IntAttribute("cy")};
                 int rad = xml_elem->IntAttribute("r");
+                string id;
 
                 Circle* crc_p = new Circle(fill,center,rad);
                 if (xml_elem->Attribute("transform") != nullptr)
                 {
                     child_transform(crc_p,xml_elem);
                 }
-                svg_elements.push_back(crc_p);        
+
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,crc_p});
+                }
+                svg_elements.push_back(crc_p); //alocá-lo no vetor acima mencionado   
             }
             else if (strcmp(xml_elem->Name(),"polyline") == 0)
             {
@@ -143,6 +161,7 @@
                 std::string pts = xml_elem->Attribute("points");
                 istringstream iss_pts(pts);
                 string current;
+                string id;
 
                 //LÓGICA : A cada linha (que contem um ponto)
                 //Encontrar as coordenadas X e Y (que estão separadas por uma vírgula)
@@ -161,13 +180,20 @@
                 {
                     child_transform(pln_p,xml_elem);
                 }
-                svg_elements.push_back(pln_p);  
+                                
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,pln_p});
+                }
+                svg_elements.push_back(pln_p); //alocá-lo no vetor acima mencionado
             }
             else if (strcmp(xml_elem->Name(),"line") == 0)
             {
                 Color stroke = parse_color(xml_elem->Attribute("stroke"));
                 Point start = {xml_elem->IntAttribute("x1"),xml_elem->IntAttribute("y1")};
                 Point end = {xml_elem->IntAttribute("x2"),xml_elem->IntAttribute("y2")};
+                string id;
 
                 Line* lne_p = new Line(stroke,start,end);
                 if (xml_elem->Attribute("transform") != nullptr)
@@ -175,6 +201,13 @@
                     child_transform(lne_p,xml_elem);
                 }
                 svg_elements.push_back(lne_p);
+                                
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,lne_p});
+                }
+                svg_elements.push_back(lne_p); //alocá-lo no vetor acima mencionado
             }
             else if (strcmp(xml_elem->Name(),"polygon") == 0)
             {
@@ -183,6 +216,7 @@
                 std::string pts = xml_elem->Attribute("points");
                 istringstream iss_pts(pts);
                 string current;
+                string id;
 
                 while (iss_pts){
                     iss_pts >> current;
@@ -196,7 +230,13 @@
                 {
                     child_transform(ply_p,xml_elem);
                 }
-                svg_elements.push_back(ply_p);
+                                
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,ply_p});
+                }
+                svg_elements.push_back(ply_p); //alocá-lo no vetor acima mencionado
             }
             else if (strcmp(xml_elem->Name(),"rect") == 0)
             {
@@ -204,6 +244,7 @@
                 int width = xml_elem->IntAttribute("width");
                 int height = xml_elem->IntAttribute("height");
                 Point start = {xml_elem->IntAttribute("x"),xml_elem->IntAttribute("y")};
+                string id;
                 
                 //obter todos os pontos do retângulo
                 // (x,y) -> 0
@@ -228,11 +269,42 @@
                 {
                     child_transform(rec_p,xml_elem);
                 }
-                svg_elements.push_back(rec_p);
+                                
+                if (xml_elem->Attribute("id") != nullptr)
+                {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,rec_p});
+                }
+                svg_elements.push_back(rec_p); //alocá-lo no vetor acima mencionado
+            }
+            else if (strcmp(xml_elem->Name(),"use") == 0)
+            {
+                std::string href = xml_elem->Attribute("href");
+                std::string id;
+                href = href.substr(1); //sem o #
+                std::string transform = xml_elem->Attribute("transform");
+
+                //se houver no mapa...             
+                auto iterator = elements_map.find(href);
+                if (iterator != elements_map.end()) //encontrou a chave
+                {
+                    //fazer copia
+                    std::cout << '\n' << "ITERATOR FIRST: " << iterator->first << '\n';
+                    SVGElement* new_element = (iterator->second)->copy();
+                    child_transform(new_element,xml_elem);
+                    svg_elements.push_back(new_element);
+
+                    // use também pode ter id
+                    if (xml_elem->Attribute("id") != nullptr)
+                    {
+                    id = xml_elem->Attribute("id");
+                    elements_map.insert({id,new_element});
+                    }
+                }
             }
 
-            void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements);
-            next_element(xml_elem, indentation, svg_elements);
+            void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements, map<string, SVGElement*> &elements_map);
+            next_element(xml_elem, indentation, svg_elements, elements_map);
 
             
 
@@ -254,7 +326,7 @@
         }
 
         // função auxiliar que permite ver o próximo elemento
-        void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements)
+        void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements, map<string, SVGElement*> &elements_map)
         {
             // os filhos do xml_elem
             for (XMLElement *child = xml_elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
@@ -263,6 +335,7 @@
                 if (strcmp(child->Name(),"g") == 0){
                     //std::cout << '\n' << child->Name() << '\n';
                     std::vector<SVGElement*> elements;
+                    std::string id;
 
                     // chamar a função principal novamente (recursão)
 
@@ -275,18 +348,25 @@
 
                     // se voltar a existir algum grupo, volta a chamar o next_element e faz as resp. transforms.
                     // caso contrário, calcula todos os elementos e faz a transform final
-                    svg::read_elements(child, indentation + 2,elements);
+                    svg::read_elements(child, indentation + 2,elements, elements_map);
 
                     //vetor de pointers de svgelement
                     Group* grp_p = new Group(elements);
                     if (child->Attribute("transform") != nullptr){
                         child_transform(grp_p,child); //se houver transform, fazer transform/transform-origin
                     }
+
                     std::cout << '\n';
                     svg_elements.push_back(grp_p); //dar pushback a todos os elementos do grupo
+
+                    if (child->Attribute("id") != nullptr)
+                    {
+                        id = child->Attribute("id");
+                        elements_map.insert({id,grp_p});
+                    }
                 }
                 else {
-                    svg::read_elements(child, indentation + 2,svg_elements);
+                    svg::read_elements(child, indentation + 2,svg_elements, elements_map);
                 }
             }
         }
@@ -309,7 +389,8 @@
 
             //implementar DOXYGEN
             //chamada de função principal implementada
-            svg::read_elements(xml_elem, 0, svg_elements);
+            map<string, SVGElement*> elements_map;
+            svg::read_elements(xml_elem, 0, svg_elements,elements_map);
             
         }
 

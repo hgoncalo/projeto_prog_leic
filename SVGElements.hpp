@@ -21,6 +21,7 @@ namespace svg
         virtual void translate(const Point &xy) = 0;
         virtual void rotate(Point &origin, int &trans_scalar)  = 0;
         virtual void scale(Point &origin, int &trans_scalar)  = 0;
+        virtual SVGElement* copy() = 0;
     };
 
     // Declaration of namespace functions
@@ -44,6 +45,7 @@ namespace svg
         Ellipse(const Color &fill);
         Color get_color() const;
         Point get_center() const;
+        Point get_radius() const;
         void draw(PNGImage &img) const override;
 
         //OBS: TRANSLATE NÃO PODE SER CONSTANTE, PORQUE ASSIM "PROMETE" QUE
@@ -51,6 +53,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar)  override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         Color fill;
@@ -71,6 +74,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         Point center;
@@ -94,6 +98,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         Color stroke;
@@ -115,6 +120,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         Point start, end;
@@ -134,6 +140,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         Color fill;
@@ -157,6 +164,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
 
     private:
         std::vector<Point> points;
@@ -176,6 +184,7 @@ namespace svg
         virtual void translate(const Point &xy) override;
         virtual void rotate(Point &origin, int &trans_scalar) override;
         virtual void scale(Point &origin, int &trans_scalar) override;
+        virtual SVGElement* copy() override;
         ~Group();
 
     private:
