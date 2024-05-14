@@ -265,6 +265,14 @@
                     std::vector<SVGElement*> elements;
 
                     // chamar a função principal novamente (recursão)
+
+                    //ex 6
+                    // read_ele(g1,id+2,ele)
+                    // xml_ele = g1, child = g2, ... é um grupo
+
+                    // read_ele(g2,id+2,ele)
+                    // xml_ele = g2, child = poly, já é um type
+
                     // se voltar a existir algum grupo, volta a chamar o next_element e faz as resp. transforms.
                     // caso contrário, calcula todos os elementos e faz a transform final
                     svg::read_elements(child, indentation + 2,elements);
