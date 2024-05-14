@@ -230,6 +230,10 @@
                 }
                 svg_elements.push_back(rec_p);
             }
+
+            void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements);
+            next_element(xml_elem, indentation, svg_elements);
+
             
 
             //
@@ -243,32 +247,43 @@
 
             //filhos do element
             std::cout << " ] " << std::endl;
+        
+            //
+            // END OF FETCH
+            //
+        }
+
+        // função auxiliar que permite ver o próximo elemento
+        void next_element(XMLElement *xml_elem, int indentation, vector<SVGElement *>& svg_elements)
+        {
+            // os filhos do xml_elem
             for (XMLElement *child = xml_elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
             {
+                // se algum for grupo
                 if (strcmp(child->Name(),"g") == 0){
-                    std::cout << '\n' << child->Name() << '\n';
+                    //std::cout << '\n' << child->Name() << '\n';
                     std::vector<SVGElement*> elements;
-                    for (XMLElement *child_of_child = child->FirstChildElement(); child_of_child != nullptr; child_of_child = child_of_child->NextSiblingElement())
-                    {
-                        // substituir svg_elements p/ elements para dar push no vetor que queremos dar transform a seguir
-                        svg::read_elements(child_of_child, indentation + 2,elements);
-                    }
+
+                    // chamar a função principal novamente (recursão)
+                    // se voltar a existir algum grupo, volta a chamar o next_element e faz as resp. transforms.
+                    // caso contrário, calcula todos os elementos e faz a transform final
+                    svg::read_elements(child, indentation + 2,elements);
+
+                    //vetor de pointers de svgelement
                     Group* grp_p = new Group(elements);
                     if (child->Attribute("transform") != nullptr){
-                        child_transform(grp_p,child);
+                        child_transform(grp_p,child); //se houver transform, fazer transform/transform-origin
                     }
                     std::cout << '\n';
-                    svg_elements.push_back(grp_p);
+                    svg_elements.push_back(grp_p); //dar pushback a todos os elementos do grupo
                 }
                 else {
                     svg::read_elements(child, indentation + 2,svg_elements);
                 }
             }
-
-            //
-            // END OF FETCH
-            //
         }
+                    
+
 
 
         void readSVG(const string& svg_file, Point& dimensions, vector<SVGElement *>& svg_elements)
