@@ -232,4 +232,47 @@ namespace svg
         this->points = new_vec;
     }
 
+    //
+    // GROUP
+    //
+
+    Group::Group(const std::vector<SVGElement*> &elements): elements(elements) {};
+    void Group::draw(PNGImage &img) const
+    {
+        for (SVGElement* element: this->elements)
+        {
+            element->draw(img);
+        } 
+    }
+    void Group::translate(const Point &xy) 
+    {
+        for (SVGElement* element: this->elements)
+        {
+            element->translate(xy);
+        } 
+    }
+    void Group::rotate(Point &origin, int &trans_scalar) 
+    {   
+        for (SVGElement* element: this->elements)
+        {
+            element->rotate(origin,trans_scalar);
+        } 
+    }
+    void Group::scale(Point &origin, int &trans_scalar) 
+    {
+        for (SVGElement* element: this->elements)
+        {
+            element->scale(origin,trans_scalar);
+        } 
+    }
+    std::vector<SVGElement*> Group::get_vector(){
+        return elements;
+    }    
+    Group::~Group(){
+        for (SVGElement* element: elements){
+            delete element;
+        }
+        elements.clear();
+    }
+
 }   

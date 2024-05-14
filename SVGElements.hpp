@@ -162,5 +162,24 @@ namespace svg
         std::vector<Point> points;
         int width,height;
     };
+
+
+    //
+    // GROUP
+    //
+    class Group: public SVGElement
+    {
+    public:
+        Group(const std::vector<SVGElement*> &elements);
+        std::vector<SVGElement*> get_vector();
+        void draw(PNGImage &img) const override;    
+        virtual void translate(const Point &xy) override;
+        virtual void rotate(Point &origin, int &trans_scalar) override;
+        virtual void scale(Point &origin, int &trans_scalar) override;
+        ~Group();
+
+    private:
+        std::vector<SVGElement*> elements;
+    };
 }   
 #endif

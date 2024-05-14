@@ -245,8 +245,24 @@
             std::cout << " ] " << std::endl;
             for (XMLElement *child = xml_elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
             {
-                //std::cout << "[TESTE] ELEMENTO ATUAL : ";
-                svg::read_elements(child, indentation + 2,svg_elements);
+                if (strcmp(child->Name(),"g") == 0){
+                    std::cout << '\n' << child->Name() << '\n';
+                    std::vector<SVGElement*> elements;
+                    for (XMLElement *child_of_child = child->FirstChildElement(); child_of_child != nullptr; child_of_child = child_of_child->NextSiblingElement())
+                    {
+                        // substituir svg_elements p/ elements para dar push no vetor que queremos dar transform a seguir
+                        svg::read_elements(child_of_child, indentation + 2,elements);
+                    }
+                    Group* grp_p = new Group(elements);
+                    if (child->Attribute("transform") != nullptr){
+                        child_transform(grp_p,child);
+                    }
+                    std::cout << '\n';
+                    svg_elements.push_back(grp_p);
+                }
+                else {
+                    svg::read_elements(child, indentation + 2,svg_elements);
+                }
             }
 
             //

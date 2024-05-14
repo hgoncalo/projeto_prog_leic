@@ -593,72 +593,92 @@ svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ]
   ellipse --> [ cx="150" cy="50" rx="10" ry="10" fill="black" ] 
 >>>> [9] group_1 <<<<
 svg --> [ width="100" height="100" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ ] 
-    circle --> [ cx="40" cy="40" r="30" fill="red" ] 
-    circle --> [ cx="60" cy="60" r="30" fill="blue" ] 
+
+g
+  circle --> [ cx="40" cy="40" r="30" fill="red" ] 
+  circle --> [ cx="60" cy="60" r="30" fill="blue" ] 
+
 >>>> [10] group_2 <<<<
 svg --> [ width="100" height="100" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform="translate(-15,-15)" ] 
-    circle --> [ cx="40" cy="40" r="25" fill="red" ] 
-    circle --> [ cx="60" cy="60" r="25" fill="blue" ] 
-pixel (0 25): expected 255 0 0 got 255 255 255
+
+g
+  circle --> [ cx="40" cy="40" r="25" fill="red" ] 
+  circle --> [ cx="60" cy="60" r="25" fill="blue" ] 
+translate
+
 >>>> [11] group_3 <<<<
 svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform="translate(10 10)" ] 
+
+g
+  circle --> [ cx="250" cy="250" r="250" fill="red" ] 
+  circle --> [ cx="250" cy="250" r="200" fill="white" ] 
+  circle --> [ cx="250" cy="250" r="150" fill="red" ] 
+  circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
+  polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
+translate
+
+>>>> [12] group_4 <<<<
+svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ] 
+
+g
+  g --> [ ] 
     circle --> [ cx="250" cy="250" r="250" fill="red" ] 
     circle --> [ cx="250" cy="250" r="200" fill="white" ] 
     circle --> [ cx="250" cy="250" r="150" fill="red" ] 
     circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
-    polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
-pixel (0 250): expected 255 255 255 got 255 0 0
->>>> [12] group_4 <<<<
-svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform="translate(10 10)" ] 
-    g --> [ ] 
-      circle --> [ cx="250" cy="250" r="250" fill="red" ] 
-      circle --> [ cx="250" cy="250" r="200" fill="white" ] 
-      circle --> [ cx="250" cy="250" r="150" fill="red" ] 
-      circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
-    polygon --> [rotate
+  polygon --> [rotate
  fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" transform-origin="250 250" transform="rotate(45)" ] 
-pixel (0 250): expected 255 255 255 got 255 0 0
+translate
+
 >>>> [13] group_5 <<<<
 svg --> [ width="530" height="530" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform-origin="250 250" transform="translate(10,10)" ] 
-    g --> [ ] 
-      circle --> [ cx="250" cy="250" r="250" fill="red" ] 
-      circle --> [ cx="250" cy="250" r="200" fill="white" ] 
-      circle --> [ cx="250" cy="250" r="150" fill="red" ] 
-    g --> [ ] 
-      polygon --> [scale
+
+g
+  g --> [ ] 
+    circle --> [ cx="250" cy="250" r="250" fill="red" ] 
+    circle --> [ cx="250" cy="250" r="200" fill="white" ] 
+    circle --> [ cx="250" cy="250" r="150" fill="red" ] 
+  g --> [ ] 
+    polygon --> [scale
  fill="black" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" transform-origin="250 250" transform="scale(2)" ] 
-    g --> [ ] 
-      polygon --> [rotate
+  g --> [ ] 
+    polygon --> [rotate
  fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" transform-origin="250 250" transform="rotate(45)" ] 
-pixel (0 250): expected 255 255 255 got 255 0 0
+translate
+
 >>>> [14] group_6 <<<<
 svg --> [ width="420" height="620" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ ] 
-    polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="red" ] 
-  g --> [ transform="translate(200 0)" ] 
-    polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="green" ] 
-  g --> [ transform="translate(0 200)" ] 
-    g --> [ transform="scale(2)" ] 
-      polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="blue" ] 
-      polyline --> [translate
+
+g
+  polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="red" ] 
+
+
+g
+  polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="green" ] 
+translate
+
+
+g
+  g --> [ transform="scale(2)" ] 
+    polyline --> [ points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="blue" ] 
+    polyline --> [translate
  points="10,10 190,10 190,190 20,190 20,20 180,20 180,180 30,180 30,30 170,30 170,170 40,170 40,40 160,40 160,160 50,160 50,50 150,50 150,150 60,150 60,60 140,60 140,140 70,140 70,70 130,70 130,130 80,130 80,80 120,80 120,120 90,120 90,90 110,90 110,110" fill="none" stroke="black" transform="translate(10,10)" ] 
-pixel (10 10): expected 255 0 0 got 0 0 255
+translate
+
+pixel (10 210): expected 255 255 255 got 0 0 255
 >>>> [15] group_7 <<<<
 svg --> [ width="300" height="300" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform="rotate(10)" ] 
-    rect --> [scale
+
+g
+  rect --> [scale
  x="50" y="50" width="50" height="25" transform="scale(2)" fill="blue" ] 
-    rect --> [scale
+  rect --> [scale
  x="50" y="50" width="50" height="25" transform="scale(3)" fill="green" ] 
-    rect --> [ x="50" y="50" width="50" height="25" fill="red" ] 
-    rect --> [translate
+  rect --> [ x="50" y="50" width="50" height="25" fill="red" ] 
+  rect --> [translate
  x="50" y="50" width="50" height="25" transform="translate(25 25)" fill="red" ] 
-pixel (36 80): expected 255 0 0 got 255 255 255
+rotate
+
 >>>> [16] line_1 <<<<
 svg --> [ width="200" height="200" xmlns="http://www.w3.org/2000/svg" ] 
   line --> [ x1="1" y1="198" x2="1" y2="1" stroke="red" ] 
@@ -1485,55 +1505,71 @@ svg --> [ width="120" height="200" xmlns="http://www.w3.org/2000/svg" ]
 pixel (15 100): expected 0 0 255 got 255 255 255
 >>>> [58] use_3 <<<<
 svg --> [ width="1001" height="1001" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ id="captain_america_shield" ] 
-    circle --> [ cx="250" cy="250" r="250" fill="red" ] 
-    circle --> [ cx="250" cy="250" r="200" fill="white" ] 
-    circle --> [ cx="250" cy="250" r="150" fill="red" ] 
-    circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
-    polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
+
+g
+  circle --> [ cx="250" cy="250" r="250" fill="red" ] 
+  circle --> [ cx="250" cy="250" r="200" fill="white" ] 
+  circle --> [ cx="250" cy="250" r="150" fill="red" ] 
+  circle --> [ cx="250" cy="250" r="100" fill="blue" ] 
+  polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
+
   use --> [ href="#captain_america_shield" transform="translate(500,0)" ] 
   use --> [ href="#captain_america_shield" transform="translate(0,500)" ] 
   use --> [ href="#captain_america_shield" transform="translate(500,500)" ] 
 pixel (0 750): expected 255 0 0 got 255 255 255
 >>>> [59] use_4 <<<<
 svg --> [ width="1001" height="1001" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ id="captain_america_shield" ] 
-    rect --> [ x="0" y="0" width="500" height="500" fill="red" ] 
-    rect --> [ x="50" y="50" width="400" height="400" fill="white" ] 
-    rect --> [ x="100" y="100" width="300" height="300" fill="red" ] 
-    rect --> [ x="150" y="150" width="200" height="200" fill="blue" ] 
-    polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
+
+g
+  rect --> [ x="0" y="0" width="500" height="500" fill="red" ] 
+  rect --> [ x="50" y="50" width="400" height="400" fill="white" ] 
+  rect --> [ x="100" y="100" width="300" height="300" fill="red" ] 
+  rect --> [ x="150" y="150" width="200" height="200" fill="blue" ] 
+  polygon --> [ fill="white" points="250,150 280,209 346,219 298,265 309,330 250,300 192,330 203,265 155,219 221,209" ] 
+
   use --> [ href="#captain_america_shield" transform="translate(500,0)" ] 
   use --> [ href="#captain_america_shield" transform="translate(0,500)" ] 
   use --> [ href="#captain_america_shield" transform="translate(500,500)" ] 
 pixel (0 500): expected 255 0 0 got 255 255 255
 >>>> [60] use_5 <<<<
 svg --> [ width="850" height="300" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ id="lines" transform="translate(50 50)" ] 
-    line --> [ x1="1" y1="198" x2="1" y2="1" stroke="red" ] 
-    line --> [ x1="1" y1="1" x2="198" y2="198" stroke="green" ] 
-    line --> [ x1="198" y1="198" x2="198" y2="1" stroke="blue" ] 
-  g --> [ transform="translate(250, 0)" ] 
-    use --> [ href="#lines" transform="rotate(90)" transform-origin="150 150" ] 
-  g --> [ transform="translate(500, 0)" ] 
-    use --> [ href="#lines" transform="rotate(180)" transform-origin="150 150" ] 
-pixel (1 1): expected 255 255 255 got 0 255 0
+
+g
+  line --> [ x1="1" y1="198" x2="1" y2="1" stroke="red" ] 
+  line --> [ x1="1" y1="1" x2="198" y2="198" stroke="green" ] 
+  line --> [ x1="198" y1="198" x2="198" y2="1" stroke="blue" ] 
+translate
+
+
+g
+  use --> [ href="#lines" transform="rotate(90)" transform-origin="150 150" ] 
+translate
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
 >>>> [61] use_6 <<<<
 svg --> [ width="2200" height="1100" xmlns="http://www.w3.org/2000/svg" ] 
-  g --> [ transform="scale(2)" ] 
-    g --> [ id="r0" ] 
-      g --> [ id="r01" ] 
-        rect --> [scale
+
+g
+  g --> [ id="r0" ] 
+
+g
+    rect --> [scale
  x="0" y="0" width="25" height="20" fill="blue" transform="scale(8)" ] 
-        rect --> [scale
+    rect --> [scale
  x="0" y="0" width="25" height="20" fill="green" transform="scale(4)" ] 
-        rect --> [scale
+    rect --> [scale
  x="0" y="0" width="25" height="20" fill="red" transform="scale(2)" ] 
-        rect --> [ x="0" y="0" width="25" height="20" fill="black" ] 
-      g --> [ id="r02" transform="translate(325 325)" ] 
-        use --> [ href="#r01" id="r021" ] 
-        use --> [ href="#r021" transform="rotate(-90)" ] 
-        use --> [ href="#r021" transform="rotate(90)" ] 
-        use --> [ href="#r021" transform="rotate(180)" ] 
-    use --> [ href="#r0" transform="translate(530 0)" ] 
-pixel (0 20): expected 0 0 0 got 255 0 0
+    rect --> [ x="0" y="0" width="25" height="20" fill="black" ] 
+
+
+g
+    use --> [ href="#r01" id="r021" ] 
+    use --> [ href="#r021" transform="rotate(-90)" ] 
+    use --> [ href="#r021" transform="rotate(90)" ] 
+    use --> [ href="#r021" transform="rotate(180)" ] 
+translate
+
+  use --> [ href="#r0" transform="translate(530 0)" ] 
+scale
+
+pixel (266 346): expected 0 0 255 got 255 255 255
