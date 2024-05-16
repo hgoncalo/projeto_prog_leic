@@ -76,6 +76,8 @@
                     current_pts.push_back(stoi(current));
                 }
                 Point iss_point = {current_pts[0],current_pts[1]};
+
+                //  Use the current pointer to call a given transform
                 svg_ptr->translate(iss_point);
             }
 
@@ -187,7 +189,9 @@
                 std::string pts = xml_elem->Attribute("points");
                 string id;
 
+                //  Call to the previously defined auxiliary function 'get_points' in order to fetch the Polyline points
                 get_points(pts_vtr,pts);
+                
                 Polyline* pln_p = new Polyline(stroke,pts_vtr);
 
                 if (xml_elem->Attribute("transform") != nullptr)
@@ -400,6 +404,7 @@
             }
             XMLElement *xml_elem = doc.RootElement();
 
+            //  Fetches the dimensions of the image
             dimensions.x = xml_elem->IntAttribute("width");
             dimensions.y = xml_elem->IntAttribute("height");
 

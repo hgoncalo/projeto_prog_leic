@@ -12,6 +12,15 @@ Identify all group elements (numbers and names).
 
 ## Accomplished tasks
 
-Brief summary of what you implemented.
+#### In the SVGElements.hpp/SVGElements.cpp files we've defined the following:
+- Created (and updated) classes and subclasses for all elements (Ellipse, Circle, Polyline, Line, Polygon, Rect, Group)
+- Defined functions that allows the caller to draw, translate, rotate, scale and copy an element
+- Implemented all the logic behind those functions and wrote all the commentary and documentation behind our thinking
 
-
+#### In the readSVG.cpp we've done the following:
+- Implemented a sub-routine that fetches the current SVG file and reads through its elements (read_elements), while also working as one of the 'main' functions for our code
+- Correctly parsed all elements and all their belonging attributes
+- Wrote auxiliary functions that successfully comprehend and realize the 'transform' and 'transform-origin' attributes (child_transform & get_origin)
+- Simplified and removed some repeated parts of the code, specially the elements that use the logic behind the 'get_points' function
+- Correctly used, allocated and deleted all the dynamic memory used along the program, avoiding memory leaks
+- Wrote all the complementary documentation and reasoning behind our thinking
