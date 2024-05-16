@@ -19,7 +19,8 @@ Identify all group elements (numbers and names).
 
 #### In the readSVG.cpp we've done the following:
 - Implemented a sub-routine that fetches the current SVG file and reads through its elements (read_elements), while also working as one of the 'main' functions for our code
-- Correctly parsed all elements and all their belonging attributes
+- Correctly parsed all elements and all their belonging attribute, including the usage of groups and the 'use' attribute, which required the addition of new pieces to our code, such as creating a map (defined in the 'read_svg' function) and fetching the 'href' and 'id' attributes
+- Recursively implemented a sub-routine that allows the reading of the next element ('next_element' in the 'read_elements' function), which was useful for 'groups'
 - Wrote auxiliary functions that successfully comprehend and realize the 'transform' and 'transform-origin' attributes (child_transform & get_origin)
 - Simplified and removed some repeated parts of the code, specially the elements that use the logic behind the 'get_points' function
 - Correctly used, allocated and deleted all the dynamic memory used along the program, avoiding memory leaks
