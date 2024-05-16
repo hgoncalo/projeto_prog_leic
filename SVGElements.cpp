@@ -22,11 +22,11 @@ namespace svg
     /// @param fill Color of the Ellipse
     /// @param center Point of the center of the Ellipse
     /// @param radius Point of the radius of the Ellipse
-    Ellipse::Ellipse(const Color &fill, Point &center, const Point &radius): fill(fill), center(center), radius(radius) {};
+    Ellipse::Ellipse(const Color &fill, Point &center, const Point &radius): fill(fill), center(center), radius(radius) {}
 
     /// @brief Specific constructor for the Circle, using only the color
     /// @param fill Color of the Ellipse
-    Ellipse::Ellipse(const Color &fill) :fill(fill) {};
+    Ellipse::Ellipse(const Color &fill) :fill(fill) {}
 
     /// @brief Fetches the Ellipse color
     /// @return The Ellipse color
@@ -97,7 +97,7 @@ namespace svg
     /// @param fill Color of the Circle
     /// @param center Point of the center of the Circle
     /// @param radius Integer value of the radius of the Circle
-    Circle::Circle(const Color &fill, Point &center, const int &radius): Ellipse(fill), center(center), radius(radius) {};
+    Circle::Circle(const Color &fill, Point &center, const int &radius): Ellipse(fill), center(center), radius(radius) {}
 
     /// @brief Fetches the Circle radius
     /// @return The Circle radius
@@ -155,11 +155,11 @@ namespace svg
     /// @brief Constructor that creates the Polyline
     /// @param stroke Color of the stroke of the Polyline
     /// @param points Vector of Points that belong to the Polyline
-    Polyline::Polyline(const Color &stroke, const std::vector<Point> &points) : stroke(stroke), points(points) {};
+    Polyline::Polyline(const Color &stroke, const std::vector<Point> &points) : stroke(stroke), points(points) {}
 
     /// @brief Specific constructor for the Line, using only the Stroke
     /// @param stroke Polyline strokes
-    Polyline::Polyline(const Color &stroke) : stroke(stroke) {}; 
+    Polyline::Polyline(const Color &stroke) : stroke(stroke) {}
 
     /// @brief Fetches Polyline stroke
     /// @return The Polyline stroke
@@ -242,7 +242,7 @@ namespace svg
     /// @param stroke Color of the stroke of the line
     /// @param start Point that indicates the beginning of the line
     /// @param end Point that indicates the end of the line
-    Line::Line(const Color &stroke, const Point &start, const Point &end) : Polyline(stroke) , start(start), end(end) {};
+    Line::Line(const Color &stroke, const Point &start, const Point &end) : Polyline(stroke) , start(start), end(end) {}
 
     /// @brief Virtual function of 'draw' overridden for the Line object that calls the 'draw_line' method in 'PNGImage.cpp'
     /// @param img The PNG Image in which the element will be drawn
@@ -292,11 +292,11 @@ namespace svg
     /// @brief Constructor that creates the Polygon
     /// @param fill Fill of the Polygon
     /// @param points Vector of Points that belong to the Polygon
-    Polygon::Polygon(const Color &fill, const std::vector<Point> &points): fill(fill), points(points) {};
+    Polygon::Polygon(const Color &fill, const std::vector<Point> &points): fill(fill), points(points) {}
 
     /// @brief Specific constructor for the Polygon, using only the fill
     /// @param fill Polygon fill
-    Polygon::Polygon(const Color &fill): fill(fill) {};
+    Polygon::Polygon(const Color &fill): fill(fill) {}
 
     /// @brief Fetch Polygon fill
     /// @return The Polygon fill
@@ -370,7 +370,7 @@ namespace svg
     /// @param points Vector of Points that belong to the Rectangle
     /// @param width Integer value of the width of the Rectangle
     /// @param heigth Integer value of the height of the Rectangle
-    Rect::Rect(const Color &fill, const std::vector<Point> &points, const int &width, const int &height) : Polygon(fill), points(points), width(width), height(height) {};
+    Rect::Rect(const Color &fill, const std::vector<Point> &points, const int &width, const int &height) : Polygon(fill), points(points), width(width), height(height) {}
 
     /// @brief Virtual function of 'draw' overridden for the Rect object that calls the 'draw_polygon' (since a rectangle is a polygon) method in 'PNGImage.cpp'
     /// @param img The PNG Image in which the element will be drawn
@@ -434,7 +434,7 @@ namespace svg
 
     /// @brief Constructor of the Group
     /// @param elements Vector that stores pointers of type 'SVGElement' containing all of the elements in a given group
-    Group::Group(const std::vector<SVGElement*> &elements): elements(elements) {};
+    Group::Group(const std::vector<SVGElement*> &elements): elements(elements) {}
 
     /// @brief Virtual function of 'draw' overridden for the Group object that calls the 'draw' method in 'PNGImage.cpp' for each element of type 'pointer of SVGElement' belonging to the 'elements' vector
     /// @param img The PNG Image in which the element will be drawn
