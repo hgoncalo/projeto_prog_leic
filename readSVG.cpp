@@ -18,7 +18,7 @@
 
     namespace svg
     {
-        ///@brief Function that checks whether the transformation of the current element has a different origin than {0,0}
+        ///@brief Function that checks whether the transformation of the current element has a different origin than the default ({0,0})
         ///@param xml_elem A pointer of type 'XMLElement' pointing to the line of the current element in the XML file
         ///@return The origin as Point
         Point get_origin(XMLElement *xml_elem){
@@ -28,7 +28,7 @@
                 std::vector<int> points;
                 std::string transform_origin = xml_elem->Attribute("transform-origin");
 
-                //  Usage of a 'istringstream' object to slice the 'transform-origin' string
+                //  Usage of an 'istringstream' object to slice the 'transform-origin' string
                 istringstream origin_iss(transform_origin);
                 std::string current_point;
                 while (origin_iss >> current_point)
@@ -81,7 +81,7 @@
 
             else if (transform_class == "rotate" || transform_class == "scale")
             {
-                //  In a try to not be very verbose, the variable 'scalar' is also used as the angle for the 'rotate' transform
+                //  In an attempt to not be very verbose, the variable 'scalar' is also used as the angle for the 'rotate' transform
                 int scalar = 0;
                 Point origin = get_origin(xml_elem);
                 while (iss >> current)
@@ -101,12 +101,11 @@
         ///@brief Function that facilitates the process of fetching Points
         ///@param pts_vtr Vector that will recieve all the Points of an element (passed by reference)
         ///@param pts String that contains the attribute "points" (separated by commas or blank spaces) of a given element
-        ///@return A updated version of 'pts_vtr' with all the Points now in the vector, instead of being in the string
+        ///@return An updated version of 'pts_vtr' with all the Points now in the vector, instead of being in the string
         std::vector<Point> get_points(std::vector<Point> &pts_vtr,std::string pts)
         {
 
-            //  Used a 'istringstream' object to help fetch all the points in the string (either separated by commas or blank spaces)
-            //  [used by a lot of elements]
+            //  Used an 'istringstream' object to help fetch all the points in the string (either separated by commas or blank spaces)
             istringstream iss_pts(pts);
             string current;
             string id;
@@ -145,7 +144,7 @@
                     child_transform(elp_p,xml_elem);
                 }
                 
-                //  If the 'id' attribute is not null, there must be a 'id' (usually to be used in the 'use' section)
+                //  If the 'id' attribute is not null, there must be an 'id' (usually to be used in the 'use' section)
                 if (xml_elem->Attribute("id") != nullptr)
                 {
                     id = xml_elem->Attribute("id");
@@ -304,7 +303,7 @@
                 //  The sub-string is used to get the 'href' attribute with the "#"
                 href = href.substr(1); 
 
-                //  Defined a iterator to iterator over the map, trying to find the key that corresponds with the 'href' string
+                //  Defined an iterator to iterator over the map, trying to find the key that corresponds with the 'href' string
                 auto iterator = elements_map.find(href);
 
                 //  If the 'if' statement is true, than the iterator has found the right key
@@ -353,7 +352,7 @@
 
                     //  Recursively call the 'read_elements' function and check if the group has any children
                     //  If the child of the group is a group again, it will recursively fetch the group (as the child of the first group will be a group) and, thus, its elements (children of the child group)
-                    //  Else, the call of the 'read_elements' function yields into a element, meaning that there are no children in the group, only elements exist!
+                    //  Else, the call of the 'read_elements' function yields into an element, meaning that there are no children in the group, only elements exist!
                     //  If the call yields into an element, it will be placed in the 'elements' vector to then apply any pending transformations
 
                     //  Concrete example of this logic : 
@@ -368,7 +367,7 @@
                     Group* grp_p = new Group(elements);
 
                     if (child->Attribute("transform") != nullptr){
-                        child_transform(grp_p,child); //se houver transform, fazer transform/transform-origin
+                        child_transform(grp_p,child); 
                     }
 
                     if (child->Attribute("id") != nullptr)
@@ -413,4 +412,3 @@
         }
 
     }
-

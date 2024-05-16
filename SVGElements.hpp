@@ -117,7 +117,7 @@ namespace svg
     class Circle : public Ellipse 
     {
     public:
-        /// Constructor that creates the Circle
+        /// @brief Constructor that creates the Circle
         /// @param fill Color of the Circle
         /// @param center Point of the center of the Circle
         /// @param radius Integer value of the radius of the Circle
@@ -160,16 +160,16 @@ namespace svg
     class Polyline : public SVGElement
     {
     public:
-        /// Constructor that creates the Polyline
+        /// @brief Constructor that creates the Polyline
         /// @param stroke Color of the stroke of the Polyline
         /// @param points Vector of Points that belong to the Polyline
         Polyline(const Color &stroke, const std::vector<Point> &points); 
 
-        /// Specific constructor for the Line, using only the Stroke
+        /// @brief Specific constructor for the Line, using only the Stroke
         /// @param stroke Polyline stroke
         Polyline(const Color &stroke);
 
-        /// Fetches Polyline stroke
+        /// @brief Fetches Polyline stroke
         /// @return The Polyline stroke
         Color get_stroke() const;
 
@@ -206,7 +206,7 @@ namespace svg
     class Line : public Polyline
     {
     public:
-        /// Constructor that creates the Line
+        /// @brief Constructor that creates the Line
         /// @param stroke Color of the stroke of the line
         /// @param start Point that indicates the beginning of the line
         /// @param end Point that indicates the end of the line
@@ -244,16 +244,16 @@ namespace svg
     class Polygon : public SVGElement
     {
     public:
-        /// Constructor that creates the Polygon
+        /// @brief Constructor that creates the Polygon
         /// @param fill Fill of the Polygon
         /// @param points Vector of Points that belong to the Polygon
         Polygon(const Color &fill, const std::vector<Point> &points);
 
-        /// Specific constructor for the Polygon, using only the fill
+        /// @brief Specific constructor for the Polygon, using only the fill
         /// @param fill Polygon fill
         Polygon(const Color &fill);
 
-        /// Fetch Polygon fill
+        /// @brief Fetch Polygon fill
         /// @return The Polygon fill
         Color get_color() const;
 
@@ -290,7 +290,7 @@ namespace svg
     class Rect : public Polygon
     {
     public:
-        /// Constructor that creates the Rectangle
+        /// @brief Constructor that creates the Rectangle
         /// @param fill Color of the Rectangle
         /// @param points Vector of Points that belong to the Rectangle
         /// @param width Integer value of the width of the Rectangle
@@ -334,7 +334,7 @@ namespace svg
         /// @param elements Vector that stores pointers of type 'SVGElement' containing all of the elements in a given group
         Group(const std::vector<SVGElement*> &elements);
 
-        /// Fetches the vector of the group 
+        /// @brief Fetches the vector of the group 
         /// @return The group vector
         std::vector<SVGElement*> get_vector();
 
